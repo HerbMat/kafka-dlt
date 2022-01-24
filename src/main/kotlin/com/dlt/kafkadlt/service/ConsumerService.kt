@@ -33,14 +33,17 @@ class ConsumerService {
         throw RuntimeException("Bad message")
     }
 
-//    @RetryableTopic(
-//        attempts = "2",
-//        backoff = Backoff(delay = 1000, multiplier = 2.0),
-//        topicSuffixingStrategy = TopicSuffixingStrategy.SUFFIX_WITH_INDEX_VALUE
-//    )
-//    @KafkaListener(topics = [REPEATABLE_TOPIC], groupId = "group_id", errorHandler = "notificationListenerErrorHandler")
-//    fun consumeRepeatable(message: Info?) {
-//        logger.info("Got message $message")
-//        throw RuntimeException("Bad message")
-//    }
+    @RetryableTopic(
+        attempts = "2",
+        backoff = Backoff(delay = 1000, multiplier = 2.0),
+        topicSuffixingStrategy = TopicSuffixingStrategy.SUFFIX_WITH_INDEX_VALUE,
+        retryTopicSuffix = "group",
+        dltTopicSuffix = "group-dlt",
+        numPartitions = "7"
+    )
+    @KafkaListener(topics = [REPEATABLE_TOPIC], groupId = "group_id", containerFactory = "retryableKafkaListenerContainerFactory")
+    fun consumeRepeatable(message: Thing?) {
+        logger.info("Got message $message")
+        throw RuntimeException("Bad message")
+    }
 }

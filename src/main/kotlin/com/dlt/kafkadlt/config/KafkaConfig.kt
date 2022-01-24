@@ -7,7 +7,9 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 import org.springframework.kafka.annotation.KafkaListenerConfigurer
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.config.KafkaListenerEndpointRegistrar
+import org.springframework.kafka.core.ConsumerFactory
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.listener.*
 import org.springframework.kafka.retrytopic.DeadLetterPublishingRecovererFactory
@@ -34,13 +36,20 @@ class KafkaConfig {
      * Boot will autowire this into the container factory.
      */
     @Bean
-    @Primary
     fun errorHandler(deadLetterPublishingRecoverer: DeadLetterPublishingRecoverer): DefaultErrorHandler {
         val errorHandler = DefaultErrorHandler(deadLetterPublishingRecoverer,  FixedBackOff(1000, 2))
         errorHandler.addNotRetryableExceptions(ListenerExecutionFailedException::class.java)
 
         return errorHandler
     }
+
+    @Bean(name = ["retryableKafkaListenerContainerFactory"])
+    fun retryableKafkaListenerContainerFactory(consumerFactory: ConsumerFactory<Any, Any>): ConcurrentKafkaListenerContainerFactory<*, *> {
+        val factory =  ConcurrentKafkaListenerContainerFactory<Any, Any>();
+        factory.consumerFactory = consumerFactory
+        return factory;
+    }
+
 
     @Bean
     fun publisher(bytesTemplate: KafkaTemplate<String, Int>): DeadLetterPublishingRecoverer {

@@ -24,14 +24,14 @@ class NotificationListenerErrorHandler(private val kafkaTemplate: KafkaTemplate<
     override fun handleError(message: Message<*>, exception: ListenerExecutionFailedException): Any {
         logger.info(message.toString())
         logger.info(exception.toString())
-        val producerRecord = ProducerRecord<Any, Any>(
-            "${message.headers[KafkaHeaders.RECEIVED_TOPIC]}-dlt" as String,
-            message.headers[KafkaHeaders.RECEIVED_PARTITION_ID] as Int,
-            message.headers[KafkaHeaders.RECEIVED_MESSAGE_KEY],
-            message.payload,
-            message.headers.map { RecordHeader(it.key, toByteArray(it.value)) }
-        )
-        kafkaTemplate.send(producerRecord as ProducerRecord<Any, Any>)
+//        val producerRecord = ProducerRecord<Any, Any>(
+//            "${message.headers[KafkaHeaders.RECEIVED_TOPIC]}-dlt" as String,
+//            message.headers[KafkaHeaders.RECEIVED_PARTITION_ID] as Int,
+//            message.headers[KafkaHeaders.RECEIVED_MESSAGE_KEY],
+//            message.payload,
+//            message.headers.map { RecordHeader(it.key, toByteArray(it.value)) }
+//        )
+//        kafkaTemplate.send(producerRecord as ProducerRecord<Any, Any>)
        return Unit
     }
 
