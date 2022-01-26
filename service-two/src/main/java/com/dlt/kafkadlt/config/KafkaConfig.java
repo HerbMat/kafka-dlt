@@ -35,15 +35,12 @@ public class KafkaConfig {
      */
     @Bean
     public DefaultErrorHandler errorHandler(DeadLetterPublishingRecoverer deadLetterPublishingRecoverer)  {
-        var errorHandler = new DefaultErrorHandler(deadLetterPublishingRecoverer,  new FixedBackOff(1000, 2));
-//        errorHandler.addNotRetryableExceptions(ListenerExecutionFailedException.class);
-
-        return errorHandler;
+        return new DefaultErrorHandler(deadLetterPublishingRecoverer,  new FixedBackOff(1000, 2));
     }
 
     @Bean(name = "retryableKafkaListenerContainerFactory")
-    public ConcurrentKafkaListenerContainerFactory<?, ?> retryableKafkaListenerContainerFactory(ConsumerFactory<?, ?> consumerFactory) {
-        var factory =  new ConcurrentKafkaListenerContainerFactory();
+    public ConcurrentKafkaListenerContainerFactory<Object, Object> retryableKafkaListenerContainerFactory(ConsumerFactory<Object, Object> consumerFactory) {
+        var factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
         return factory;
     }

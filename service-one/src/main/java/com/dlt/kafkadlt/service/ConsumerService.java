@@ -38,6 +38,6 @@ class ConsumerService {
 //    @KafkaListener(topics = REPEATABLE_TOPIC)
     public void consumeRepeatable(Thing message) {
         log.info("Got message $message");
-        throw new RuntimeException("Bad message");
+//        throw new RuntimeException("Bad message");
     }
 }

@@ -42,8 +42,8 @@ public class KafkaConfig {
     }
 
     @Bean(name = "retryableKafkaListenerContainerFactory")
-    public ConcurrentKafkaListenerContainerFactory<?, ?> retryableKafkaListenerContainerFactory(ConsumerFactory<?, ?> consumerFactory) {
-        var factory =  new ConcurrentKafkaListenerContainerFactory();
+    public ConcurrentKafkaListenerContainerFactory<Object, Object> retryableKafkaListenerContainerFactory(ConsumerFactory<Object, Object> consumerFactory) {
+        var factory =  new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory);
         return factory;
     }
