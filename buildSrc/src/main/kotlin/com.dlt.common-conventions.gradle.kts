@@ -2,9 +2,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.springframework.boot")
+    id("java")
     id("io.spring.dependency-management")
-    kotlin("jvm")
-    kotlin("plugin.spring")
 }
 
 group = "com.dlt"
@@ -33,7 +32,9 @@ dependencies {
     implementation("org.springframework.integration:spring-integration-http")
     implementation("org.springframework.integration:spring-integration-kafka")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+    compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
