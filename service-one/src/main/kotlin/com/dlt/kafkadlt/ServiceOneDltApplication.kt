@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class KafkaDltApplication
+class ServiceOneDltApplication
 
 fun main(args: Array<String>) {
-    runApplication<KafkaDltApplication>(*args)
+    runApplication<ServiceOneDltApplication>(*args)
 }
