@@ -5,7 +5,6 @@ import com.dlt.kafkadlt.model.Thing;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
-import org.springframework.kafka.retrytopic.TopicSuffixingStrategy;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +28,10 @@ class ConsumerService {
     }
 
     @RetryableTopic(
-        attempts = "2",
+        attempts = "3",
         backoff = @Backoff(delay = 1000, multiplier = 2.0),
-        topicSuffixingStrategy = TopicSuffixingStrategy.SUFFIX_WITH_INDEX_VALUE,
+        retryTopicSuffix = "#{'-' + '${spring.kafka.consumer.group-id}' + '-retry'}",
+        dltTopicSuffix = "#{'-' + '${spring.kafka.consumer.group-id}' + '-dlt'}",
         numPartitions = "7"
     )
     @KafkaListener(topics = REPEATABLE_TOPIC, containerFactory = "retryableKafkaListenerContainerFactory")

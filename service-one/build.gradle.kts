@@ -1,3 +1,7 @@
 plugins {
-    id("com.dlt.common-conventions")
+    id("com.dlt.service-conventions")
+}
+
+dependencies {
+    implementation(project(":common"))
 }

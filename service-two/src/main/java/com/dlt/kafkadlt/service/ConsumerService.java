@@ -29,13 +29,14 @@ public class ConsumerService {
     }
 
     @RetryableTopic(
-            attempts = "2",
+            attempts = "3",
             backoff = @Backoff(delay = 1000, multiplier = 2.0),
-            topicSuffixingStrategy = TopicSuffixingStrategy.SUFFIX_WITH_INDEX_VALUE,
+            retryTopicSuffix = "#{'-' + '${spring.kafka.consumer.group-id}' + '-retry'}",
+            dltTopicSuffix = "#{'-' + '${spring.kafka.consumer.group-id}' + '-dlt'}",
             numPartitions = "7"
     )
-    @KafkaListener(topics = REPEATABLE_TOPIC, containerFactory = "retryableKafkaListenerContainerFactory")
-//    @KafkaListener(topics = REPEATABLE_TOPIC)
+//    @KafkaListener(topics = REPEATABLE_TOPIC, containerFactory = "retryableKafkaListenerContainerFactory")
+    @KafkaListener(topics = REPEATABLE_TOPIC)
     public void consumeRepeatable(Thing message) {
         log.info("Got message $message");
         throw new RuntimeException("Bad message");

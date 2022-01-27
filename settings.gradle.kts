@@ -1,2 +1,2 @@
 rootProject.name = "kafka-dlt"
-include("service-one", "service-two")
+include("common", "service-one", "service-two")
