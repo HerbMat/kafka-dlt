@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ Added only as another proposal how to create dead letter que mechanism. But it is more complex and harder to maintain than other two
+ */
 @RequiredArgsConstructor
 @Slf4j
 @Component("notificationListenerErrorHandler")
