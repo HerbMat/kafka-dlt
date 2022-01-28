@@ -14,16 +14,10 @@ import static com.dlt.kafkadlt.utils.Constants.*;
 @Service
 class ConsumerService {
 
-    @KafkaListener(topics = TOPIC, errorHandler = "notificationListenerErrorHandler")
-    public void consume(Info message) {
-        log.info("Got message $message");
-        throw new RuntimeException("Bad message");
-    }
-
 //    @KafkaListener(topics = TOPIC_GOOD, groupId = "group_id", errorHandler = "notificationListenerErrorHandler")
-    @KafkaListener(topics = TOPIC_GOOD)
-    public void consumeGood(Thing message) {
-        log.info("Got message $message");
+    @KafkaListener(topics = NORMAL_TOPIC)
+    public void consumeNormalTopic(Thing message) {
+        log.info("Got message {}", message);
         throw new RuntimeException("Bad message");
     }
 
@@ -34,10 +28,16 @@ class ConsumerService {
         dltTopicSuffix = "#{'-' + '${spring.kafka.consumer.group-id}' + '-dlt'}",
         numPartitions = "7"
     )
-    @KafkaListener(topics = REPEATABLE_TOPIC, containerFactory = "retryableKafkaListenerContainerFactory")
+    @KafkaListener(topics = RETRYABLE_SINGLE_TOPIC, containerFactory = "retryableKafkaListenerContainerFactory")
 //    @KafkaListener(topics = REPEATABLE_TOPIC)
-    public void consumeRepeatable(Thing message) {
-        log.info("Got message $message");
-//        throw new RuntimeException("Bad message");
+    public void consumeRetryableSingle(Thing message) {
+        log.info("Got message {}", message);
+        throw new RuntimeException("Bad message");
+    }
+
+    @KafkaListener(topics = RETRYABLE_DEFAULT_TOPIC, containerFactory = "retryableGlobalKafkaListenerContainerFactory")
+    public void consumeRetryableDefault(Thing message) {
+        log.info("Got message {}", message);
+        throw new RuntimeException("Bad message");
     }
 }

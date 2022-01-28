@@ -5,8 +5,10 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Constants {
-    public static final String TOPIC = "topic";
-    public static final String TOPIC_GOOD = "topic-good";
-    public static final String REPEATABLE_TOPIC = "repeatable";
+    public static final String INVALID_FORMAT_NORMAL_TOPIC = "invalid-format-normal";
+    public static final String NORMAL_TOPIC = "normal";
+    public static final String RETRYABLE_SINGLE_TOPIC = "retryable-single";
+    public static final String RETRYABLE_SINGLE_TOPIC_INVALID = "retryable-single-invalid-format";
+    public static final String RETRYABLE_DEFAULT_TOPIC = "retryable-default";
 }
 

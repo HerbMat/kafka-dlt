@@ -1,1 +1,2 @@
-com.dlt.kafkadlt.config.KafkaConfig
+com.dlt.kafkadlt.config.KafkaConfig,\
+com.dlt.kafkadlt.config.RetryableKafkaConfig
