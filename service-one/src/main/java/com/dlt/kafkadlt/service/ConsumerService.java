@@ -1,6 +1,5 @@
 package com.dlt.kafkadlt.service;
 
-import com.dlt.kafkadlt.model.Info;
 import com.dlt.kafkadlt.model.Thing;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -21,6 +20,10 @@ class ConsumerService {
         throw new RuntimeException("Bad message");
     }
 
+    /*
+    I believe when we will be using multiple consumer groups in kafka then retryTopicSuffix and dltTopicSuffix must be
+    hardcoded with the same values as in groupId in KafkaListener
+    */
     @RetryableTopic(
         attempts = "3",
         backoff = @Backoff(delay = 1000, multiplier = 2.0),
@@ -29,7 +32,6 @@ class ConsumerService {
         numPartitions = "7"
     )
     @KafkaListener(topics = RETRYABLE_SINGLE_TOPIC, containerFactory = "retryableKafkaListenerContainerFactory")
-//    @KafkaListener(topics = REPEATABLE_TOPIC)
     public void consumeRetryableSingle(Thing message) {
         log.info("Got message {}", message);
         throw new RuntimeException("Bad message");
