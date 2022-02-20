@@ -9,11 +9,14 @@ spring:
     properties:
       # Delegate deserializers
       spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
-      spring.deserializer.value.delegate.class:  org.springframework.kafka.support.serializer.JsonDeserializer
+      spring.deserializer.value.delegate.class: org.apache.kafka.common.serialization.BytesDeserializer
       spring.json.trusted.packages: com.dlt.kafkadlt.model
+#      spring.json.value.default.type: com.dlt.kafkadlt.model.Thing
     producer:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.apache.kafka.common.serialization.BytesSerializer
+      properties:
+        spring.kafka.producer.properties.spring.json.add.type.headers: false
 server:
   port: 8082

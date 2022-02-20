@@ -1,7 +1,10 @@
 package com.dlt.kafkadlt.service;
 
+import com.dlt.kafkadlt.dto.Crown;
 import com.dlt.kafkadlt.model.Info;
 import com.dlt.kafkadlt.model.Thing;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -16,6 +19,7 @@ import static com.dlt.kafkadlt.utils.Constants.*;
 @Service
 public class ProducerService {
     private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final ObjectMapper objectMapper;
 
     public void sendInvalidMessageToNormalTopic(String message) {
         log.info("Send to message {} with invalid format topic to topic {}", message, NORMAL_TOPIC);
@@ -40,5 +44,15 @@ public class ProducerService {
     public void sendValidMessageToRetryableDefaultTopic(String message) {
         log.info("Send message {} to retryable default topic {}", message, RETRYABLE_DEFAULT_TOPIC);
         kafkaTemplate.send(RETRYABLE_DEFAULT_TOPIC, UUID.randomUUID().toString(), new Thing(message));
+    }
+
+    public void sendLast(Crown crown) {
+        log.info("Send message {} to retryable default topic {}", crown.getText(), "last");
+        try {
+//            kafkaTemplate.send("last", UUID.randomUUID().toString(), "'value': 'is :badd'");
+            kafkaTemplate.send("last", UUID.randomUUID().toString(), objectMapper.writer().writeValueAsString(crown));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 }

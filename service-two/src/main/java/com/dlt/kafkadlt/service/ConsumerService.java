@@ -46,4 +46,10 @@ public class ConsumerService {
         log.info("Got message {}", message);
         throw new RuntimeException("Bad message");
     }
+
+    @KafkaListener(topics = "last")
+    public void consumeNotCovered(Thing message) {
+        log.info("Got message {}", message);
+//        throw new RuntimeException("Bad message");
+    }
 }

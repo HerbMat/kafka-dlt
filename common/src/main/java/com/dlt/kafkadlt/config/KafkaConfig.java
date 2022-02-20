@@ -10,6 +10,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
 import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.KafkaUtils;
+import org.springframework.kafka.support.converter.ByteArrayJsonMessageConverter;
 import org.springframework.util.backoff.FixedBackOff;
 
 @Slf4j
@@ -30,5 +31,10 @@ public class KafkaConfig {
                 cr.topic() + "-" + KafkaUtils.getConsumerGroupId() + "-dlt",
                 cr.partition()
         ));
+    }
+
+    @Bean
+    public ByteArrayJsonMessageConverter byteArrayJsonMessageConverter() {
+        return new ByteArrayJsonMessageConverter();
     }
 }

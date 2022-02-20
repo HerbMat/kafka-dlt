@@ -1,9 +1,11 @@
 package com.dlt.kafkadlt.api;
 
+import com.dlt.kafkadlt.dto.Crown;
 import com.dlt.kafkadlt.service.ProducerService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,5 +43,10 @@ public class MessageController {
     @PutMapping("/retryable-default")
     void sendValidMessageToRetryableDefaultTopic(@RequestParam String message) {
         producerService.sendValidMessageToRetryableDefaultTopic(message);
+    }
+
+    @PutMapping("/last")
+    void handleDefault(@RequestBody Crown crown) {
+        producerService.sendLast(crown);
     }
 }
